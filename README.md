@@ -1,10 +1,11 @@
 # ZecretlyClient - The Modern, Fast, and Secure API Client
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-**ZecretlyClient (or Zecretly for short) is a next-generation API client designed to be blazingly fast, completely secure, and incredibly easy to use. We're building Zecretly to be open source and free forever, addressing the common pain points found in existing API clients like Postman, Yaak, and Bruno.** [4, 6, 39, 40]
+**ZecretlyClient (or Zecretly for short) is a next-generation API client designed to be blazingly fast, completely secure, and incredibly easy to use. We're building Zecretly to be open source and free forever under the GPLv3 license, addressing the common pain points found in existing API clients like Postman, Yaak, and Bruno.**
 
 Our mission is to provide developers with a delightful and efficient tool for interacting with APIs, streamlining workflows, and boosting productivity.
 
@@ -115,7 +116,7 @@ Instructions on how to build, install, and run ZecretlyClient will be added here
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/ZecretlyClient.git
+git clone https://github.com/DevAldrete/ZecretlyClient.git
 
 # Navigate to the project directory
 cd ZecretlyClient
@@ -162,7 +163,7 @@ We're always thinking about how to make Zecretly even better. Here are some idea
 
 ## 📄 License
 
-ZecretlyClient is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+ZecretlyClient is licensed under the GNU General Public License v3.0. See the [LICENSE](LICENSE) file for details.
 
 ---
 

@@ -1,3 +1,187 @@
+# General
+# -----------------------------------------------------------------------------
+# Compiled Object files, libraries and archives
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.so
+*.obj
+*.exe
+*.dll
+*.dylib
+*.jar
+*.war
+*.ear
+*.class
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Visual Basic files
+*.vbk
+
+# Logs and databases
+# -----------------------------------------------------------------------------
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+*.DS_Store
+*.db
+*.db-journal # SQLite journal file
+local_database.* # Example for local database files
+
+# OS generated files
+# -----------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE / Editor specific files
+# -----------------------------------------------------------------------------
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains (IntelliJ, WebStorm, etc.)
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.classpath
+.settings/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# Vim
+*~
+*.swp
+*.swo
+
+# Node.js / JavaScript / TypeScript
+# -----------------------------------------------------------------------------
 node_modules/
-.env*
-*-lock.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+package-lock.json # If you exclusively use yarn.lock or pnpm-lock.yaml
+yarn.lock # If you exclusively use package-lock.json or pnpm-lock.yaml
+pnpm-lock.yaml # If you exclusively use package-lock.json or yarn.lock
+# (Choose one lockfile and commit it, ignore the others if present by mistake)
+
+# TypeScript specific
+*.tsbuildinfo
+dist/
+build/
+out/
+lib/ # Common output directories for compiled JS
+
+# Frontend (React - Create React App / Vite common)
+# -----------------------------------------------------------------------------
+frontend/node_modules/
+frontend/build/
+frontend/dist/
+frontend/.pnp.*
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/coverage/
+frontend/storybook-static/ # If using Storybook
+
+# Backend (Express.js / Node.js)
+# -----------------------------------------------------------------------------
+backend/node_modules/
+backend/dist/  # If compiling TypeScript to a 'dist' folder
+backend/build/ # Another common name for compiled output
+backend/coverage/
+backend/logs/ # If you create a specific logs directory
+backend/.env # Backend specific .env if not using the root one
+
+# Drizzle ORM
+# -----------------------------------------------------------------------------
+# Drizzle Kit generated migration files (often you DO want to commit these,
+# but if you have a strategy to generate them on the fly in CI/CD for specific environments,
+# you might ignore them. For most projects, COMMIT your migrations.)
+# If you decide to ignore:
+# backend/drizzle/migrations/*
+# backend/drizzle/*.json # Drizzle Kit state files
+
+# However, it's generally recommended to commit migration files.
+# If you have local Drizzle Studio state or temp files, add them here.
+# .drizzle/ # Drizzle Studio local data (if applicable)
+
+# Docker
+# -----------------------------------------------------------------------------
+.dockerignore # Often you want to commit this, but ignore it if it's auto-generated and not custom
+# Any local Docker build artifacts not meant for commit
+
+# Environment variables
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example # Important: Keep .env.example to show structure
+
+# Test Reports & Coverage
+# -----------------------------------------------------------------------------
+coverage/
+*.lcov
+TESTS-*.xml
+junit.xml
+report/
+mochawesome-report/
+.nyc_output/
+
+# Miscellaneous
+# -----------------------------------------------------------------------------
+# Sass
+.sass-cache/
+*.css.map
+*.scss.map
+
+# Secrets - although .env should cover most
+secrets.yml
+secrets.json
+*.pem
+*.key
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Crash reports
+*.stackdump
+hs_err_pid*
+replay_pid*
+# -----------------------------------------------------------------------------
