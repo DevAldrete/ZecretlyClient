@@ -1,0 +1,148 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  NODE_VERSION: '20'
+  PNPM_VERSION: '10.11.0'
+
+jobs:
+  # Quick validation for PRs
+  pr-validation:
+    name: PR Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: pnpm install --frozen-lockfile
+
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: TypeScript check (Backend)
+        working-directory: ./backend
+        run: pnpm exec tsc --noEmit
+
+      - name: TypeScript check (Frontend)
+        working-directory: ./frontend
+        run: pnpm exec tsc --noEmit
+
+      - name: Lint frontend
+        working-directory: ./frontend
+        run: pnpm lint
+
+      - name: Check frontend formatting
+        working-directory: ./frontend
+        run: pnpm format --check
+
+  # Fast API tests for PRs
+  pr-api-tests:
+    name: PR API Tests
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: zecretly_test
+          POSTGRES_PASSWORD: zecretly_test_password
+          POSTGRES_DB: zecretly_test
+        ports:
+          - 5434:5432
+        options: >-
+          --health-cmd "pg_isready -U zecretly_test -d zecretly_test"
+          --health-interval 5s
+          --health-timeout 10s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+          cache-dependency-path: backend/pnpm-lock.yaml
+
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        working-directory: ./backend
+        run: pnpm exec playwright install --with-deps
+
+      - name: Setup test database
+        working-directory: ./backend
+        env:
+          ZECRETLY_DB_CONNECTION_URI: postgresql://zecretly_test:zecretly_test_password@localhost:5434/zecretly_test
+        run: pnpm test:db:seed
+
+      - name: Run critical API tests
+        working-directory: ./backend
+        env:
+          CI: true
+          ZECRETLY_DB_CONNECTION_URI: postgresql://zecretly_test:zecretly_test_password@localhost:5434/zecretly_test
+        run: |
+          # Run only critical tests for faster PR feedback
+          pnpm exec playwright test tests/health.api.spec.ts tests/workspaces.api.spec.ts
+
+  # Check for breaking changes
+  breaking-changes:
+    name: Breaking Changes Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for API breaking changes
+        run: |
+          # Check if API endpoints file has been modified
+          if git diff --name-only origin/main...HEAD | grep -q "backend/API_ENDPOINTS.md"; then
+            echo "⚠️ API documentation has been modified. Please review for breaking changes."
+            echo "::warning::API documentation has been modified"
+          fi
+
+      - name: Check for database schema changes
+        run: |
+          # Check if database schema files have been modified
+          if git diff --name-only origin/main...HEAD | grep -q "backend/src/db/\|backend/drizzle/"; then
+            echo "⚠️ Database schema changes detected. Ensure migrations are included."
+            echo "::warning::Database schema changes detected"
+          fi
+
+      - name: Check for dependency changes
+        run: |
+          # Check if package.json files have been modified
+          if git diff --name-only origin/main...HEAD | grep -q "package.json\|pnpm-lock.yaml"; then
+            echo "📦 Dependency changes detected."
+            echo "::notice::Dependency changes detected"
+          fi

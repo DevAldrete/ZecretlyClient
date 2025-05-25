@@ -97,8 +97,9 @@ ZecretlyClient is being built with a modern, performant, and reliable tech stack
 
 *   **Frontend:**
     *   **React:** For building a dynamic and responsive user interface.
+    *   **Rsbuild**: Combined with React for a great performance.
+    *   **Tanstack Router**: For a nice and clean way to handle routing in Zecretly.
     *   **Tanstack Query (React Query):** For powerful asynchronous state management, caching, and data fetching. [5, 9, 14, 22]
-    *   **Tanstack Router:** For typesafe and modern routing within the application. [2, 8, 12, 13, 18]
     *   **Tailwind CSS / Styled Components (TBD):** For styling the application.
 *   **Backend/Core Logic (if applicable for desktop app structure, e.g., with Electron):**
     *   **Express.js:** For handling inter-process communication, local server tasks, or plugin systems. [31, 32, 35, 36, 43]
@@ -110,9 +111,15 @@ ZecretlyClient is being built with a modern, performant, and reliable tech stack
 *   **Desktop Application Framework (TBD):**
     *   **Electron / Tauri:** To be decided based on performance and development experience trade-offs.
 
-## 🚀 Getting Started (Placeholder)
+## 🚀 Getting Started
 
-Instructions on how to build, install, and run ZecretlyClient will be added here once the initial version is available.
+### Prerequisites
+
+- Docker and Docker Compose
+- Node.js 20+ (for local development)
+- pnpm (recommended package manager)
+
+### Quick Start with Docker
 
 ```bash
 # Clone the repository
@@ -121,11 +128,44 @@ git clone https://github.com/DevAldrete/ZecretlyClient.git
 # Navigate to the project directory
 cd ZecretlyClient
 
+# Copy environment variables
+cp .env.example .env
+# Edit .env with your configuration
+
+# Start all services (development mode)
+docker compose up -d
+
+# Build and start just the backend
+docker compose up zecretly_backend
+
+# For production deployment
+docker compose -f docker-compose.prod.yml up -d
+```
+
+### Local Development
+
+```bash
 # Install dependencies
-npm install # or yarn install
+cd backend && pnpm install
 
 # Start the development server
-npm start # or yarn start
+pnpm dev
+```
+
+### Docker Commands
+
+```bash
+# Build without cache
+docker compose build zecretly_backend --no-cache
+
+# View logs
+docker compose logs -f zecretly_backend
+
+# Stop all services
+docker compose down
+
+# Remove volumes (careful - this deletes data!)
+docker compose down -v
 ```
 
 ## 🤝 Contributing

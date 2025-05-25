@@ -1,38 +1,64 @@
 # backend/Dockerfile
-FROM node:20-alpine AS builder
+# Multi-stage build for optimized production image
+FROM node:20-alpine AS base
 
+# Install pnpm globally
+RUN npm install -g pnpm
+
+# Set working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and lock file
-COPY package*.json ./
-# COPY pnpm-lock.yaml ./ # If using pnpm
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN npm install --frozen-lockfile # Or yarn install --frozen-lockfile or pnpm install --frozen-lockfile
-# RUN pnpm install --frozen-lockfile # If using pnpm
+RUN pnpm install --frozen-lockfile
 
-# Copy the rest of your application source code
-# .dockerignore will ensure only necessary files are copied here
+# Copy source code
 COPY . .
 
-# Build TypeScript (if applicable)
-RUN npm run build # Assuming you have a "build" script in package.json (e.g., tsc)
+# Development stage
+FROM base AS development
+EXPOSE 3000
+CMD ["pnpm", "dev"]
 
-# --- Production Stage ---
-FROM node:20-alpine
+# Production build stage
+FROM base AS builder
+
+# Build the application (if you have a build script, otherwise skip this)
+# RUN pnpm build
+
+# Production stage
+FROM node:20-alpine AS production
+
+# Install pnpm
+RUN npm install -g pnpm
 
 WORKDIR /usr/src/app
 
-# Copy only necessary artifacts from the builder stage
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app/dist ./dist 
-COPY --from=builder /usr/src/app/package.json ./package.json
-# Copy Drizzle config and migrations if they are not part of the 'dist'
-COPY --from=builder /usr/src/app/drizzle.config.ts ./drizzle.config.ts
-COPY --from=builder /usr/src/app/drizzle ./drizzle 
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
 
-# Expose port (if your app listens on one)
-EXPOSE 3000 
+# Install only production dependencies
+RUN pnpm install --frozen-lockfile --prod
 
-# Command to run your application
-CMD ["node", "dist/server.js"] 
+# Copy source code
+COPY --from=base /usr/src/app/src ./src
+
+# Create non-root user for security
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+# Change ownership of the app directory
+RUN chown -R nodejs:nodejs /usr/src/app
+USER nodejs
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node --version || exit 1
+
+# Start the application
+CMD ["pnpm", "dev"]

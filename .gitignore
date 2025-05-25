@@ -93,10 +93,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-package-lock.json # If you exclusively use yarn.lock or pnpm-lock.yaml
-yarn.lock # If you exclusively use package-lock.json or pnpm-lock.yaml
-pnpm-lock.yaml # If you exclusively use package-lock.json or yarn.lock
-# (Choose one lockfile and commit it, ignore the others if present by mistake)
+# Choose one lockfile strategy - since you're using pnpm, you might want to ignore others:
+# package-lock.json
+# yarn.lock
 
 # TypeScript specific
 *.tsbuildinfo
@@ -105,7 +104,7 @@ build/
 out/
 lib/ # Common output directories for compiled JS
 
-# Frontend (React - Create React App / Vite common)
+# Frontend (React/Rsbuild specific)
 # -----------------------------------------------------------------------------
 frontend/node_modules/
 frontend/build/
@@ -126,6 +125,13 @@ backend/build/ # Another common name for compiled output
 backend/coverage/
 backend/logs/ # If you create a specific logs directory
 backend/.env # Backend specific .env if not using the root one
+
+# Playwright Testing
+# -----------------------------------------------------------------------------
+backend/test-results/
+backend/playwright-report/
+frontend/test-results/
+frontend/playwright-report/
 
 # Drizzle ORM
 # -----------------------------------------------------------------------------
@@ -150,6 +156,7 @@ backend/.env # Backend specific .env if not using the root one
 .env
 .env.*
 !.env.example # Important: Keep .env.example to show structure
+!.env.test # Keep test environment file if you want to commit it
 
 # Test Reports & Coverage
 # -----------------------------------------------------------------------------
@@ -183,5 +190,10 @@ temp/
 # Crash reports
 *.stackdump
 hs_err_pid*
-replay_pid*
+
+# Jujutsu VCS (since you're using .jj)
+# -----------------------------------------------------------------------------
+# .jj/ is typically committed, but you might want to ignore some local state
+# .jj/repo/working_copy_state # if you don't want to track working copy state
+
 # -----------------------------------------------------------------------------

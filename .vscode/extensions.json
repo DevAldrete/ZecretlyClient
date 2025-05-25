@@ -1,0 +1,36 @@
+// .vscode/extensions.json
+{
+  "recommendations": [
+    // Core
+    "dbaeumer.vscode-eslint", // ESLint
+    "esbenp.prettier-vscode", // Prettier - Code formatter
+    "editorconfig.editorconfig", // EditorConfig for VS Code (if you use .editorconfig)
+
+    // JavaScript / TypeScript / React
+    "ms-vscode.vscode-typescript-next", // For using the latest TS features in JS files
+    "dsznajder.es7-react-js-snippets", // React snippets
+    "styled-components.vscode-styled-components", // If using Styled Components
+    "bradlc.vscode-tailwindcss", // If using Tailwind CSS
+    "formulahendry.auto-rename-tag", // Auto rename paired HTML/XML tag
+    "formulahendry.auto-close-tag", // Auto close HTML/XML tag
+    "VisualStudioExptTeam.vscodeintellicode", // AI-assisted IntelliSense
+
+    // Rust (for Tauri)
+    "rust-lang.rust-analyzer", // Official Rust language support
+    "serayuzgur.crates", // Helps with Cargo.toml dependencies
+    "tamasfe.even-better-toml", // TOML language support
+
+    // Docker
+    "ms-azuretools.vscode-docker", // Docker support
+
+    // Git
+    "eamodio.gitlens", // Git supercharged
+    "mhutchie.git-graph", // View Git history as a graph
+
+    // Other useful ones
+    "Gruntfuggly.todo-tree", // Highlight TODO, FIXME, etc.
+    "streetsidesoftware.code-spell-checker", // Spell checker for code
+    "wayou.vscode-todo-highlight", // Another TODO highlighter
+    "usernamehw.errorlens" // Inline error messages
+  ]
+}
