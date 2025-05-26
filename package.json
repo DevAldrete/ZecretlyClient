@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@vitest/ui": "^3.1.4",
+    "jsdom": "^26.1.0",
+    "msw": "^2.8.4",
+    "vitest": "^3.1.4"
+  }
+}

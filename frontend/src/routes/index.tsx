@@ -1,14 +1,8 @@
-import HeroSection from '../components/HeroSection';
-import { FeatureSection } from '../components/FeatureSection';
 import { createFileRoute } from '@tanstack/react-router';
+import MainApp from '../pages/MainApp';
 
 export const Route = createFileRoute('/')({
   component: function IndexApp() {
-    return (
-      <div>
-        <HeroSection />
-        <FeatureSection />
-      </div>
-    );
+    return <MainApp />;
   },
 })
